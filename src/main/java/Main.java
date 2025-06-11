@@ -1,37 +1,42 @@
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 public class Main {
 
     public static void main(String[] args) {
         String maPhrase = "salut";
+        String heure = obtenirHeure();
         System.out.println(bonjour());
         System.out.println(palindrome(maPhrase));
         System.out.println(auRevoir());
-        //System.out.println(bonjourAuRevoir(maPhrase));
+        System.out.println(heure);
     }
 
     public static String palindrome(String maPhrase) {
         StringBuilder inverse = new StringBuilder(maPhrase).reverse();
         String reponse = inverse.toString();
-        if (maPhrase.equalsIgnoreCase(reponse)) {
-            return "bien dit !";
+        if(maPhrase.equals("")) {
+            return bonjour() + auRevoir();
+        }
+        else if (maPhrase.equals(reponse)) {
+            return bonjour() + "bien dit !" + auRevoir();
         } else {
-            return reponse;
+            return bonjour() + reponse + auRevoir();
         }
     }
 
-    public static String bonjour() {
-        return "Bonjour !";
+    public static String obtenirHeure() {
+        LocalTime heure = LocalTime.now();
+        DateTimeFormatter heureFormatee = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return heure.format(heureFormatee);
     }
 
-    public static String auRevoir() {
-        return "Au revoir !";
+    private static String bonjour() {
+        return "Bonjour\n";
     }
 
-	/*public static String bonjourAuRevoir(String maPhrase) {
-		String bonjour = "Bonjour !\n";
-		String auRevoir = "Au revoir !";
-		String palindrome = palindrome(maPhrase);
-		return bonjour + palindrome + "\n" + auRevoir;
-	}*/
-
+    private static String auRevoir() {
+        return "\nAu revoir";
+    }
 }
 
