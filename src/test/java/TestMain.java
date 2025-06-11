@@ -80,5 +80,40 @@ public class TestMain {
         String resultat = Main.palindrome("En journée");
         assertThat(resultat, containsString("Bonsoir\n"));
     }
+
+    // Tests langues
+    @Test
+    public void testPalindromeRenvoieGoodMorning() {
+        Main.LANGUE = Langue.EN;
+        Main.INSTANT = Main.FIN_DE_NUIT.plusSeconds(1);
+        String resultat = Main.palindrome("Day");
+        assertThat(resultat, containsString("Good morning\n"));
+        Main.LANGUE = Langue.FR;
+    }
+
+    @Test
+    public void testPalindromeRenvoieGoodEvening() {
+        Main.LANGUE = Langue.EN;
+        Main.INSTANT = Main.FIN_DU_JOUR.plusSeconds(1);
+        String resultat = Main.palindrome("Night");
+        assertThat(resultat, containsString("Good evening\n"));
+        Main.LANGUE = Langue.FR;
+    }
+
+    @Test
+    public void testPalindromeRenvoieGoodBye() {
+        Main.LANGUE = Langue.EN;
+        String resultat = Main.palindrome("Hello");
+        assertThat(resultat, endsWith("\nGood bye"));
+        Main.LANGUE = Langue.FR;
+    }
+
+    @Test
+    public void testPalindromeRenvoieWellSaid() {
+        Main.LANGUE = Langue.EN;
+        String resultat = Main.palindrome("bob");
+        assertThat(resultat, containsString("well said !\n"));
+        Main.LANGUE = Langue.FR;
+    }
 }
 
