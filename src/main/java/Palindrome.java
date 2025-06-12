@@ -5,17 +5,20 @@ public class Palindrome {
 
     static LocalTime FIN_DE_NUIT = LocalTime.of(6, 0, 0);
     static LocalTime FIN_DU_JOUR = LocalTime.of(18, 0, 0);
-    static LocalTime INSTANT = LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
+    static LocalTime FIN_DU_MATIN = LocalTime.of(12, 0, 0);
+    static LocalTime FIN_DU_SOIR = LocalTime.of(0, 0, 0);
+    static LocalTime INSTANT;
     static Langue LANGUE = Langue.FR;
 
     public Palindrome(Langue langue) {
         this.LANGUE = langue;
+        this.INSTANT = LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
     }
 
     public String inverser(String maPhrase) {
         StringBuilder inverse = new StringBuilder(maPhrase).reverse();
         String reponse = inverse.toString();
-        MessageBuilder message = new MessageBuilder(LANGUE);
+        MessageBuilder message = new MessageBuilder(this);
 
         if(maPhrase.isEmpty()) {
             message = bonjour(message);
@@ -36,10 +39,7 @@ public class Palindrome {
     }
 
     private static MessageBuilder bonjour(MessageBuilder message) {
-        if(INSTANT.isAfter(FIN_DE_NUIT) && INSTANT.isBefore(FIN_DU_JOUR.plusSeconds(1))) {
-            return message.bonjour();
-        }
-        return message.bonsoir();
+        return message.messageBienvenue();
     }
 
     private static MessageBuilder auRevoir(MessageBuilder message) {
@@ -56,5 +56,25 @@ public class Palindrome {
 
     public Langue getLangue() {
         return LANGUE;
+    }
+
+    public LocalTime getHeure() {
+        return INSTANT;
+    }
+
+    public static LocalTime getFinDeNuit() {
+        return FIN_DE_NUIT;
+    }
+
+    public static LocalTime getFinDuJour() {
+        return FIN_DU_JOUR;
+    }
+
+    public static LocalTime getFinDuMatin() {
+        return FIN_DU_MATIN;
+    }
+
+    public static LocalTime getFinDuSoir() {
+        return FIN_DU_SOIR;
     }
 }
