@@ -20,22 +20,16 @@ public class Palindrome {
         String reponse = inverse.toString();
         MessageBuilder message = new MessageBuilder(this);
 
-        if(maPhrase.isEmpty()) {
-            message = bonjour(message);
-            message = auRevoir(message);
-            return message.build();
-        }
-        else if (maPhrase.equals(reponse)) {
+        if (maPhrase.equals(reponse)) {
             message = bonjour(message);
             message = bienDit(message);
             message = auRevoir(message);
             return message.build();
-        } else {
-            message = bonjour(message);
-            message = contenu(message, reponse);
-            message = auRevoir(message);
-            return message.build();
         }
+        message = bonjour(message);
+        message = contenu(message, reponse);
+        message = auRevoir(message);
+        return message.build();
     }
 
     private static MessageBuilder bonjour(MessageBuilder message) {

@@ -20,27 +20,27 @@ public class MessageBuilder {
     }
 
     public MessageBuilder bonjourMatin() {
-        sb.append(this.bonjourMatin()).append("\n");
+        sb.append(this.palindrome.getLangue().bonjourMatin()).append("\n");
         return this;
     }
 
     public MessageBuilder bonjourApresMidi() {
-        sb.append(this.bonjourApresMidi()).append("\n");
+        sb.append(this.palindrome.getLangue().bonjourApresMidi()).append("\n");
         return this;
     }
 
     public MessageBuilder bonsoir() {
-        sb.append(this.bonsoir()).append("\n");
+        sb.append(this.palindrome.getLangue().bonsoir()).append("\n");
         return this;
     }
 
     public MessageBuilder bonneNuit() {
-        sb.append(this.bonneNuit()).append("\n");
+        sb.append(this.palindrome.getLangue().bonneNuit()).append("\n");
         return this;
     }
 
     public MessageBuilder auRevoir() {
-        sb.append("\n").append(this.auRevoir());
+        sb.append("\n").append(this.palindrome.getLangue().auRevoir());
         return this;
     }
 
@@ -50,7 +50,7 @@ public class MessageBuilder {
     }
 
     public MessageBuilder bienDit() {
-        sb.append(this.bienDit());
+        sb.append(this.palindrome.getLangue().bienDit());
         return this;
     }
 
