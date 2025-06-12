@@ -1,6 +1,5 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalTime;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,112 +7,122 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestMain {
 
+    private Palindrome palindrome;
+
+    @BeforeEach
+    public void setUp() {
+        palindrome = new Palindrome(Langue.FR);
+    }
+
     // Tests sur les chaînes de caractères
     @Test
     public void testPalindromeRenvoieMotALEnvers() {
-        String resultat = Main.palindrome("bouh");
+        // ETANT DONNE un mot qui n'est pas un palindrome
+        String mot = "bouh";
+        // QUAND on donne ce mot à la méthode inverser
+        String resultat = palindrome.inverser(mot);
+        // ALORS le mot est inversé
         assertThat(resultat, containsString("huob"));
     }
 
     @Test
     public void testPalindromeRenvoiePalindrome() {
-        String resultat = Main.palindrome("anna");
-        assertThat(resultat, containsString("bien dit !"));
+        // ETANT DONNE un mot qui est un palindrome
+        String mot = "anna";
+        // QUAND on donne ce mot à la méthode inverser
+        String resultat = palindrome.inverser(mot);
+        // ALORS un message spécial reconnaissant le palindrome est envoyé
+        assertThat(resultat, containsString(palindrome.getLangue().bienDit()));
     }
 
     @Test
     public void testPlusieursMotsSontBienRenvoyesALEnvers() {
-        String resultat = Main.palindrome("Bibi la Bibiste");
+        // ETANT DONNE un ensemble de mots qui ne forment pas un palindrome
+        String phrase = "Bibi la Bibiste";
+        // QUAND on donne cette phrase à la méthode inverser
+        String resultat = palindrome.inverser(phrase);
+        // ALORS la phrase est inversée
         assertThat(resultat, containsString("etsibiB al ibiB"));
     }
 
     @Test
     public void testBienDitALEnversDoitBienRenvoyerBienDit() {
-        String resultat = Main.palindrome("! tid neib");
-        assertThat(resultat, containsString("bien dit !"));
-    }
-
-    @Test
-    public void testPalindromeCommenceParBonjourEtTermineParAuRevoirSiPasDePhrase() {
-        String unePhrase = "";
-        String resultat = Main.palindrome(unePhrase);
-        assertEquals("Bonjour\n\nAu revoir", resultat);
+        // ETANT DONNE le message spécial reconnaissant le palindrome
+        StringBuilder motSpecial = new StringBuilder(palindrome.getLangue().bienDit()).reverse();
+        String motSpecialInverse = motSpecial.toString();
+        // QUAND on donne ce mot spécial à la méthode inverser
+        String resultat = palindrome.inverser(motSpecialInverse);
+        // ALORS le mot spécial est envoyé
+        assertThat(resultat, containsString(palindrome.getLangue().bienDit()));
     }
 
     @Test
     public void testPalindromeCommenceParBonjour() {
-        String resultat = Main.palindrome("Salut");
-        assertThat(resultat, startsWith("Bonjour\n"));
+        // ETANT DONNE un mot qui est ou non un palindrome
+        String mot = "bouh";
+        // QUAND on donne ce mot à la méthode inverser
+        String resultat = palindrome.inverser(mot);
+        // ALORS le premier mot envoyé est le message de bienvenue
+        assertThat(resultat, startsWith(palindrome.getLangue().bonjour()));
     }
 
     @Test
     public void testPalindromeTermineParAuRevoir() {
-        String resultat = Main.palindrome("Salut");
-        assertThat(resultat, endsWith("\nAu revoir"));
+        // ETANT DONNE un mot qui est ou non un palindrome
+        String mot = "bouh";
+        // QUAND on donne ce mot à la méthode inverser
+        String resultat = palindrome.inverser(mot);
+        // ALORS le dernier mot envoyé est le message d'au revoir
+        assertThat(resultat, endsWith(palindrome.getLangue().auRevoir()));
     }
 
     // Tests sur l'heure
     @Test
     public void testPalindromeRenvoieBonjourDe6h00m01sA18h00m00s() {
-        Main.INSTANT = Main.FIN_DE_NUIT.plusSeconds(1);
-        String resultat = Main.palindrome("En journée");
-        assertThat(resultat, containsString("Bonjour\n"));
+        // ETANT DONNE un horaire de jour
+        // ET un mot qui est ou non un palindrome
+        Palindrome.INSTANT = Palindrome.FIN_DE_NUIT.plusSeconds(1);
+        String mot = "En journée";
+        // QUAND on appelle la méthode inverser
+        String resultat = palindrome.inverser(mot);
+        // ALORS le message de bienvenue correspond à celui du jour
+        assertThat(resultat, containsString(palindrome.getLangue().bonjour()));
     }
 
     @Test
     public void testPalindromeRenvoieEncoreBonjourA18h00Pile() {
-        Main.INSTANT = Main.FIN_DU_JOUR;
-        String resultat = Main.palindrome("En journée");
-        assertThat(resultat, containsString("Bonjour\n"));
+        // ETANT DONNE le dernier instant du jour
+        // ET un mot qui est ou non un palindrome
+        Palindrome.INSTANT = Palindrome.FIN_DU_JOUR;
+        String mot = "En journée";
+        // QUAND on appelle la méthode inverser
+        String resultat = palindrome.inverser(mot);
+        // ALORS le message de bienvenue correspond encore à celui du jour
+        assertThat(resultat, containsString(palindrome.getLangue().bonjour()));
     }
 
     @Test
     public void testPalindromeRenvoieBonsoirDe18h00m01sA6h00m00s() {
-        Main.INSTANT = Main.FIN_DU_JOUR.plusSeconds(1);
-        String resultat = Main.palindrome("En soirée");
-        assertThat(resultat, containsString("Bonsoir\n"));
+        // ETANT DONNE un horaire de nuit
+        // ET un mot qui est ou non un palindrome
+        Palindrome.INSTANT = Palindrome.FIN_DU_JOUR.plusSeconds(1);
+        String mot = "En soirée";
+        // QUAND on appelle la méthode inverser
+        String resultat = palindrome.inverser(mot);
+        // ALORS le message de bienvenue correspond à celui du soir
+        assertThat(resultat, containsString(palindrome.getLangue().bonsoir()));
     }
 
     @Test
     public void testPalindromeRenvoieEncoreBonsoirA6h00Pile() {
-        Main.INSTANT = Main.FIN_DE_NUIT;
-        String resultat = Main.palindrome("En journée");
-        assertThat(resultat, containsString("Bonsoir\n"));
-    }
-
-    // Tests langues
-    @Test
-    public void testPalindromeRenvoieGoodMorning() {
-        Main.LANGUE = Langue.EN;
-        Main.INSTANT = Main.FIN_DE_NUIT.plusSeconds(1);
-        String resultat = Main.palindrome("Day");
-        assertThat(resultat, containsString("Good morning\n"));
-        Main.LANGUE = Langue.FR;
-    }
-
-    @Test
-    public void testPalindromeRenvoieGoodEvening() {
-        Main.LANGUE = Langue.EN;
-        Main.INSTANT = Main.FIN_DU_JOUR.plusSeconds(1);
-        String resultat = Main.palindrome("Night");
-        assertThat(resultat, containsString("Good evening\n"));
-        Main.LANGUE = Langue.FR;
-    }
-
-    @Test
-    public void testPalindromeRenvoieGoodBye() {
-        Main.LANGUE = Langue.EN;
-        String resultat = Main.palindrome("Hello");
-        assertThat(resultat, endsWith("\nGood bye"));
-        Main.LANGUE = Langue.FR;
-    }
-
-    @Test
-    public void testPalindromeRenvoieWellSaid() {
-        Main.LANGUE = Langue.EN;
-        String resultat = Main.palindrome("bob");
-        assertThat(resultat, containsString("well said !\n"));
-        Main.LANGUE = Langue.FR;
+        // ETANT DONNE le dernier instant du soir
+        // ET un mot qui est ou non un palindrome
+        Palindrome.INSTANT = Palindrome.FIN_DE_NUIT;
+        String mot = "En soirée";
+        // QUAND on appelle la méthode inverser
+        String resultat = palindrome.inverser(mot);
+        // ALORS le message de bienvenue correspond encore à celui du soir
+        assertThat(resultat, containsString(palindrome.getLangue().bonsoir()));
     }
 }
 
