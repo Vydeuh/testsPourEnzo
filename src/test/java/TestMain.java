@@ -2,6 +2,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.Matchers.*;
+
+import java.util.Random;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestMain {
@@ -10,7 +13,9 @@ public class TestMain {
 
     @BeforeEach
     public void setUp() {
-        palindrome = new Palindrome(Langue.FR);
+    	Langue [] tabLangues = Langue.values();
+    	int langueAleatoire = new Random().nextInt(tabLangues.length);
+        palindrome = new Palindrome(tabLangues[langueAleatoire]);
     }
 
     // Tests sur les chaînes de caractères

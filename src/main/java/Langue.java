@@ -1,6 +1,7 @@
 public enum Langue {
     FR("Bonjour", "Bonjour", "Bonsoir", "Bonne nuit", "Au revoir", "bien dit !"),
-    EN("Good morning", "Good afternoon", "Good evening", "Good night", "Good bye", "well said !");
+    EN("Good morning", "Good afternoon", "Good evening", "Good night", "Good bye", "well said !"),
+	ES("Buenos dias", "Buenas tardes", "Buenas noches", "Buenas noches", "Adios", "Bien dicho !");
 
     private final String bonjourMatin;
     private final String bonjourApresMidi;
