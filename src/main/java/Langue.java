@@ -12,10 +12,10 @@ public enum Langue {
     Langue(String bonjourMatin, String bonjourApresMidi, String bonsoir, String bonneNuit, String auRevoir, String bienDit) {
         this.bonjourMatin = bonjourMatin;
         this.bonjourApresMidi = bonjourApresMidi;
-        this.bienDit = bienDit;
-        this.auRevoir = auRevoir;
         this.bonsoir = bonsoir;
         this.bonneNuit = bonneNuit;
+        this.auRevoir = auRevoir;
+        this.bienDit = bienDit;
     }
 
     public String bonjourMatin() { return this.bonjourMatin; }

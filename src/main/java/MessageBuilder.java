@@ -1,4 +1,7 @@
+import java.time.LocalTime;
+
 public class MessageBuilder {
+	
     private final StringBuilder sb = new StringBuilder();
     private final Palindrome palindrome;
 
@@ -7,40 +10,42 @@ public class MessageBuilder {
     }
 
     public MessageBuilder messageBienvenue() {
-        if(palindrome.getHeure().isAfter(Palindrome.getFinDeNuit()) && palindrome.getHeure().isBefore(Palindrome.getFinDuMatin().plusSeconds(1))) {
-            return this.bonjourMatin();
+        LocalTime heure = palindrome.getHeure();
+
+        if (heure.isAfter(Palindrome.getFinDeNuit()) && !heure.isAfter(Palindrome.getFinDuMatin())) {
+            return bonjourMatin();
         }
-        if(palindrome.getHeure().isAfter(Palindrome.getFinDuMatin()) && palindrome.getHeure().isBefore(Palindrome.getFinDuJour().plusSeconds(1))) {
-            return this.bonjourApresMidi();
+        if (heure.isAfter(Palindrome.getFinDuMatin()) && !heure.isAfter(Palindrome.getFinDuJour())) {
+            return bonjourApresMidi();
         }
-        if(palindrome.getHeure().isAfter(Palindrome.getFinDuJour()) && palindrome.getHeure().isBefore(Palindrome.getFinDuSoir().plusSeconds(1))) {
-            return this.bonsoir();
+        if (heure.isAfter(Palindrome.getFinDuJour()) || heure.equals(Palindrome.getMinuit())) {
+            return bonsoir();
         }
-        return this.bonneNuit();
+        return bonneNuit();
     }
 
     public MessageBuilder bonjourMatin() {
-        sb.append(this.palindrome.getLangue().bonjourMatin()).append("\n");
+        sb.append(palindrome.getLangue().bonjourMatin()).append("\n");
         return this;
     }
 
     public MessageBuilder bonjourApresMidi() {
-        sb.append(this.palindrome.getLangue().bonjourApresMidi()).append("\n");
+        sb.append(palindrome.getLangue().bonjourApresMidi()).append("\n");
         return this;
     }
 
     public MessageBuilder bonsoir() {
-        sb.append(this.palindrome.getLangue().bonsoir()).append("\n");
+        sb.append(palindrome.getLangue().bonsoir()).append("\n");
         return this;
     }
 
     public MessageBuilder bonneNuit() {
-        sb.append(this.palindrome.getLangue().bonneNuit()).append("\n");
+        sb.append(palindrome.getLangue().bonneNuit()).append("\n");
         return this;
     }
 
     public MessageBuilder auRevoir() {
-        sb.append("\n").append(this.palindrome.getLangue().auRevoir());
+        sb.append("\n").append(palindrome.getLangue().auRevoir());
         return this;
     }
 
@@ -50,7 +55,7 @@ public class MessageBuilder {
     }
 
     public MessageBuilder bienDit() {
-        sb.append(this.palindrome.getLangue().bienDit());
+        sb.append(palindrome.getLangue().bienDit());
         return this;
     }
 
@@ -58,4 +63,3 @@ public class MessageBuilder {
         return sb.toString();
     }
 }
-

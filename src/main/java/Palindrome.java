@@ -3,31 +3,31 @@ import java.time.temporal.ChronoUnit;
 
 public class Palindrome {
 
-    static LocalTime FIN_DE_NUIT = LocalTime.of(6, 0, 0);
-    static LocalTime FIN_DU_JOUR = LocalTime.of(18, 0, 0);
-    static LocalTime FIN_DU_MATIN = LocalTime.of(12, 0, 0);
-    static LocalTime FIN_DU_SOIR = LocalTime.of(0, 0, 0);
-    static LocalTime INSTANT;
-    static Langue LANGUE = Langue.FR;
+    private static final LocalTime FIN_DE_NUIT = LocalTime.of(6, 0, 0);
+    private static final LocalTime FIN_DU_MATIN = LocalTime.of(12, 0, 0);
+    private static final LocalTime FIN_DU_JOUR = LocalTime.of(18, 0, 0);
+    private static final LocalTime MINUIT = LocalTime.MIDNIGHT;
+
+    private LocalTime instant;
+    private final Langue langue;
+    private MessageBuilder message;
 
     public Palindrome(Langue langue) {
-        this.LANGUE = langue;
-        this.INSTANT = LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
+        this.langue = langue;
+        this.instant = LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
+        this.message = new MessageBuilder(this);
     }
 
     public String inverser(String maPhrase) {
         StringBuilder inverse = new StringBuilder(maPhrase).reverse();
         String reponse = inverse.toString();
-        MessageBuilder message = new MessageBuilder(this);
 
-        if (maPhrase.equals(reponse)) {
-            message = bonjour(message);
-            message = bienDit(message);
-            message = auRevoir(message);
-            return message.build();
-        }
         message = bonjour(message);
-        message = contenu(message, reponse);
+        if (maPhrase.equals(reponse)) {
+            message = bienDit(message);
+        } else {
+            message = contenu(message, reponse);
+        }
         message = auRevoir(message);
         return message.build();
     }
@@ -49,11 +49,19 @@ public class Palindrome {
     }
 
     public Langue getLangue() {
-        return LANGUE;
+        return langue;
     }
 
     public LocalTime getHeure() {
-        return INSTANT;
+        return instant;
+    }
+
+    public void setHeure(LocalTime heure) {
+        this.instant = heure;
+    }
+    
+    public MessageBuilder getMessage() {
+    	return this.message;
     }
 
     public static LocalTime getFinDeNuit() {
@@ -68,7 +76,7 @@ public class Palindrome {
         return FIN_DU_MATIN;
     }
 
-    public static LocalTime getFinDuSoir() {
-        return FIN_DU_SOIR;
+    public static LocalTime getMinuit() {
+        return MINUIT;
     }
 }
